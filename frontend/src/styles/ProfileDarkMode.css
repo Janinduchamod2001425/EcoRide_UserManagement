@@ -1,0 +1,28 @@
+.dark-mode {
+    background-color: #D7FFBF;
+    color: black;
+}
+
+.signUpFormDark {
+    background-color: black;
+    color: white;
+}
+
+.hoPro {
+    background-color: black;
+}
+
+.textBox {
+    background-color: lime;
+    font-weight: bolder;
+}
+
+.upButton {
+    background-color: white;
+}
+
+.upButton:hover {
+    background-image: linear-gradient(45deg, #0d9436, #bafaae);
+    color: black;
+    animation: gradientStroke 1s infinite alternate;
+}

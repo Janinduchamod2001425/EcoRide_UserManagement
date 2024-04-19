@@ -1,0 +1,144 @@
+#log{
+    color: white;
+    background-color: black;
+    padding: 1px 8px 3px 8px;
+    border-radius: 15px;
+    margin-left: 5px;
+    text-decoration: none;
+}
+
+#log:hover{
+    background-color: lime;
+    color: black;
+    border: none;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap');
+
+.bacgroundImage1{
+    background-color: #D9D9D9;
+    width: 1100px;
+    height: 900px;
+    float: right;
+    margin-right: -60px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.signUpBG{
+    width: 500px;
+    height: 775px;
+    float: left;
+    border-radius: 25px;
+    margin-left: 39px;
+    margin-top: 35px;
+}
+
+.signUImage{
+    width: 500px;
+    height: 775px;
+    border-radius: 25px;
+}
+
+.signUpForm{
+    width: 481px;
+    height: 775px;
+    background-color: #ffffff;
+    float: left;
+    border-radius: 25px;
+    margin-left: 39px;
+    margin-top: 35px;
+}
+
+.formTitle{
+    font-size: 48px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 15px;
+    font-family: monospace;
+    margin-bottom: -10px;
+}
+
+.labelName{
+    margin-left: 60px;
+    font-size: 24px;
+    font-family: monospace;
+    margin-top: 10px;
+}
+
+.textview{
+    width: 385px;
+    height: 40px;
+    background-color: #D9D9D9;
+    border-radius: 20px;
+    margin-left: 45px;
+    font-family: monospace;
+    font-size: 20px;
+}
+
+.visiblePassword{
+    border-radius: 20px;
+    background-color: white;
+}
+
+.textview1{
+    width: 430px;
+}
+
+.textview option:checked {
+    background-color: green;
+    color: white;
+}
+
+#saveBTNReg{
+    width: 144px;
+    height: 56px;
+    background-color: #0DF316;
+    font-size: 24px;
+    font-family: monospace;
+    border-radius: 30px;
+    color: black;
+    font-weight: bold;
+    margin-left: 165px;
+    margin-top: 30px;
+    border: none;
+}
+
+#saveBTNReg:hover{
+    background-color: black;
+    color: lime;
+}
+
+#alreadyAcc{
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-left: 110px;
+}
+
+.QuoteBar{
+    width: 1020px;
+    height: 63px;
+    background-color: #D7FFBF;
+    margin-top: 823px;
+    margin-left: 36px;
+    border-radius: 25px;
+}
+
+.quote{
+    margin-left: 170px;
+    font-family: monospace;
+    font-size: 24px;
+    padding-top: 14px;
+    font-weight: bold;
+}
+
+.herb{
+    width: 50px;
+    height: 50px;
+    float: right;
+    margin-right: 180px;
+    margin-top: -60px;
+}

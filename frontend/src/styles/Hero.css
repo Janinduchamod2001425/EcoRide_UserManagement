@@ -1,0 +1,562 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap');
+
+.reg-btn {
+    background-color: black;
+    width: 100px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: yellow;
+    font-weight: bolder;
+}
+
+.bacgroundImage{
+    background-color: #D9D9D9;
+    width: 1080px;
+    height: 850px;
+    float: right;
+    margin-right: -60px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+#clock{
+    background-color: #D7FFBF;
+    width: 260px;
+    height: 130px;
+    border-radius: 30px;
+}
+
+#side-navbar {
+    width: 300px;
+    height: 850px;
+    background-color: #E6E6E6;
+    margin-top: 0px;
+    margin-left: -84px;
+    margin-bottom: 10px;
+    border-radius: 25px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    transform: rotateY(20deg);
+    transform-origin: 100% 50%;
+    position: relative;
+    z-index: 1;
+}
+
+#side-navbar ul {
+    color: white;
+    list-style: none;
+    padding: 20px;
+}
+
+#side-navbar li {
+    margin-bottom: 25px;
+    padding: 10px;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    font-weight: bolder;
+    font-family: monospace;
+    font-size: 17px;
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+#side-navbar li:hover {
+    background-color: #3d8314;
+    font-weight: bolder;
+    font-family: monospace;
+    color: black;
+}
+
+#side-navbar li.active{
+    background-color: #9f1248;
+}
+
+#link {
+    text-decoration: none;
+    color: white;
+}
+
+#image1 {
+    width: 23px;
+    height: 23px;
+    margin-left: 20px;
+    margin-top: -4px;
+}
+
+.time {
+    text-align: center;
+    font-size: 35px;
+    font-weight: bold;
+    font-family: monospace;
+    color: black;
+    padding-top: 20px;
+}
+
+.date {
+    text-align: center;
+    font-family: monospace;
+    margin-bottom: 20px;
+    color: darkslategrey;
+    font-weight: bold;
+}
+
+.title{
+    font-size: 65px;
+    margin-top: 180px;
+    position: relative;
+    margin-left: 440px;
+    font-family: 'Outfit', sans-serif;
+    text-align: right;line-height: 65px;
+}
+
+.hero_image{
+    background-color: #3d8314;
+    width: 1040px;
+    height: 430px;
+    margin-top: 20px;
+    margin-left: 20px;
+    border-radius: 25px;
+}
+
+.hero{
+    border-radius: 25px;
+    width: 1040px;
+    height: 430px;
+}
+
+.searchbar{
+    width: 357px;
+    height: 33px;
+    margin-top: -40px;
+    margin-left: 950px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #D9D9D9;
+}
+
+.search_icon{
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+    margin-top: 4px;
+}
+
+.hero_image1{
+    width: 1040px;
+    height: 370px;
+    margin-top: 10px;
+    margin-left: 20px;
+    border-radius: 25px;
+}
+
+.hero1{
+    border-radius: 25px;
+    width: 1040px;
+    height: 370px;
+    opacity: 0.3;
+}
+
+.t1{
+    text-align: center;
+    font-size: 96px;
+    margin-top: -370px;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.t2{
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 40px;
+    font-family: monospace;
+    margin-top: -40px;
+}
+
+.t3{
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 40px;
+    font-family: monospace;
+    margin-top: -25px;
+}
+
+.btnStart{
+    width: 171px;
+    height: 57px;
+    background-color: #55BE15;
+    font-size: 20px;
+    font-family: monospace;
+    border-radius: 30px;
+    font-weight: bold;
+    border: none;
+    margin-left: 450px;
+    margin-top: -120px;
+    position: absolute;
+}
+
+.btnStart:hover{
+    background-color: black;
+    color: lime;
+}
+
+.vehiclesBG{
+    background-color: #D9D9D9;
+    width: 1380px;
+    height: 528px;
+    margin-left: -40px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.vehicleTitle{
+    font-size: 96px;
+    text-align: center;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.vehiPoster{
+    width: 1380px;
+    height: 528px;
+    border-radius: 25px;
+}
+
+.vehicleBrands{
+    width: 1380px;
+    height: 528px;
+    margin-left: -40px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.brand{
+    width: 264px;
+    height: 266px;
+    background-color: #D9D9D9;
+    float: left;
+    margin-right: 25px;
+    margin-left: 50px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+}
+
+.brandImage{
+    width: 150px;
+    height: 150px;
+    margin-top: 55px;
+    margin-left: 55px;
+}
+
+.packageTitle{
+    font-size: 96px;
+    text-align: center;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.packagesBG{
+    background-color: #D9D9D9;
+    width: 1380px;
+    height: 680px;
+    margin-left: -40px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.packPoster{
+    width: 1380px;
+    height: 680px;
+    border-radius: 25px;
+}
+
+.customPacks{
+    width: 1380px;
+    height: 828px;
+    margin-left: -40px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.pack1{
+    width: 380px;
+    height: 640px;
+    background-color: #C0C0C0;
+    border-radius: 25px;
+    float: left;
+    margin-right: 33px;
+    margin-left: 40px;
+}
+
+.pack2{
+    width: 380px;
+    height: 640px;
+    background-color: #479F12;
+    border-radius: 25px;
+    float: left;
+    margin-right: 33px;
+    margin-left: 40px;
+    color: white;
+}
+
+.pack3{
+    width: 380px;
+    height: 640px;
+    background-color: #0DF316;
+    border-radius: 25px;
+    float: left;
+    margin-right: 33px;
+    margin-left: 40px;
+}
+
+.packTitle{
+    text-align: center;
+    font-size: 48px;
+    font-family: monospace;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.packImage{
+    width: 380px;
+    height: 463px;
+    border-radius: 25px;
+}
+
+.reservationTitle{
+    font-size: 96px;
+    text-align: center;
+    font-family: monospace;
+    font-weight: bold;
+    margin-top: -170px;
+}
+
+.reservationBG{
+    background-color: #D9D9D9;
+    width: 1302px;
+    height: 680px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.reservePoster{
+    width: 1302px;
+    height: 680px;
+    border-radius: 25px;
+}
+
+.tranfer{
+    width: 1380px;
+    height: 528px;
+    margin-left: -40px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.trans{
+    width: 264px;
+    height: 266px;
+    background-color: #D9D9D9;
+    float: left;
+    margin-right: 25px;
+    margin-left: 50px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+}
+
+.transImage{
+    width: 150px;
+    height: 150px;
+    margin-top: 55px;
+    margin-left: 55px;
+}
+
+.maintainTitle{
+    font-size: 96px;
+    text-align: center;
+    font-family: monospace;
+    font-weight: bold;
+    margin-top: -240px;
+}
+
+.maintainBG{
+    background-color: #D9D9D9;
+    width: 1302px;
+    height: 680px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.maintainPoster{
+    width: 1302px;
+    height: 680px;
+    border-radius: 25px;
+}
+
+.maintains1{
+    width: 620px;
+    height: 550px;
+    background-color: #0DF316;
+    float: left;
+    margin-right: 25px;
+    border-radius: 25px;
+    margin-bottom: 50px;
+}
+
+.maintains2{
+    width: 620px;
+    height: 550px;
+    float: left;
+    margin-left: 31px;
+    border-radius: 25px;
+    margin-bottom: 50px;
+}
+
+.ma{
+    border-radius: 25px;
+    width: 620px;
+    height: 550px;
+}
+
+.damageTitle{
+    font-size: 96px;
+    text-align: center;
+    font-family: monospace;
+    font-weight: bold;
+    margin-top: 60px;
+}
+
+.damageBG{
+    background-color: #D9D9D9;
+    width: 1302px;
+    height: 680px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.damagePoster{
+    width: 1302px;
+    height: 680px;
+    border-radius: 25px;
+}
+
+.dam{
+    width: 264px;
+    height: 266px;
+    background-color: #D9D9D9;
+    float: left;
+    margin-right: 90px;
+    margin-left: 78px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+}
+
+.damageImage{
+    width: 150px;
+    height: 150px;
+    margin-top: 55px;
+    margin-left: 55px;
+}
+
+
+.loyaltyTitle{
+    font-size: 96px;
+    text-align: center;
+    font-family: monospace;
+    font-weight: bold;
+    margin-top: 40px;
+}
+
+.loyaltyBG{
+    background-color: #D9D9D9;
+    width: 1302px;
+    height: 680px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.loyaltyPoster{
+    width: 1302px;
+    height: 680px;
+    border-radius: 25px;
+}
+
+.feed{
+    width: 264px;
+    height: 266px;
+    background-color: #D9D9D9;
+    float: left;
+    margin-right: 90px;
+    margin-left: 78px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+}
+
+.feedImage{
+    width: 150px;
+    height: 150px;
+    margin-top: 55px;
+    margin-left: 55px;
+}
+
+.footer{
+    width: 1519px;
+    height: 574px;
+    background-color: #62DB67;
+    margin-top: 300px;
+    margin-left: -112px;
+    margin-bottom: -30;
+}
+
+.foot{
+    width: 1519px;
+    height: 574px;
+    margin-bottom: -50px;
+}
+
+.copyright{
+    text-align: center;
+    margin-top: 13px;
+    font-family: monospace;
+    font-weight: bold;
+    margin-bottom: -40px;
+}
+
+.footlinks{
+    width: 266px;
+    height: 400px;
+    margin-top: -450px;
+    margin-left: 600px;
+}
+
+.heading{
+    text-align: center;
+    font-size: 30px;
+    font-family: monospace;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+#footlink{
+    text-decoration: none;
+    text-align: center;
+    color: black;
+    font-family: monospace;
+    font-style: italic;
+    font-weight: bold;
+    margin-left: 35px;
+    font-size: 21px;
+    margin-bottom: 10px;
+}

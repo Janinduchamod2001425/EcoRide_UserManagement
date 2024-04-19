@@ -1,0 +1,16 @@
+.searchbar{
+    width: 357px;
+    height: 33px;
+    margin-top: -40px;
+    margin-left: 950px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: #D9D9D9;
+}
+
+.search_icon{
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+    margin-top: 4px;
+}

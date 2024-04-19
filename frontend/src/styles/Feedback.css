@@ -1,0 +1,145 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+#username{
+    color: white;
+    font-family: cursive;
+    margin-right: 10px;
+    margin-top: 2px;
+}
+
+.navbar{
+    height: 70px;
+}
+
+.item{
+    font-weight: bolder;
+}
+
+.Logo{
+    width: 70px;
+    margin-top: -3px;
+    margin-left: -8px;
+}
+
+#signup{
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 30px;
+    width: 120px;
+    font-family: monospace;
+    margin-right: 25px;
+    font-size: 18px;
+    border: none;
+}
+
+#signin{
+    background-color: #55BE15;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 30px;
+    width: 120px;
+    font-family: monospace;
+    font-size: 18px;
+    border: none;
+}
+
+#profile{
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 30px;
+    width: 120px;
+    font-family: monospace;
+    margin-right: 25px;
+    font-size: 18px;
+    border: none;
+}
+
+#logout{
+    background-color: #55BE15;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 30px;
+    width: 120px;
+    font-family: monospace;
+    font-size: 18px;
+    border: none;
+}
+
+.avatar{
+    width: 38px;
+    height: 38px;
+    margin-right: 25px;
+    margin-top: 2px;
+}
+
+.avatar1{
+    width: 38px;
+    height: 38px;
+    margin-right: 5px;
+    margin-top: 2px;
+}
+
+.siteName{
+    text-decoration: none;
+}
+
+/* Footer */
+
+.footer{
+    width: 1519px;
+    height: 574px;
+    background-color: #62DB67;
+    margin-top: 300px;
+    margin-left: -112px;
+    margin-bottom: -30;
+}
+
+.foot{
+    width: 1519px;
+    height: 574px;
+    margin-bottom: -50px;
+}
+
+.copyright{
+    text-align: center;
+    margin-top: 13px;
+    font-family: monospace;
+    font-weight: bold;
+    margin-bottom: -40px;
+}
+
+.footlinks{
+    width: 266px;
+    height: 400px;
+    margin-top: -450px;
+    margin-left: 600px;
+}
+
+.heading{
+    text-align: center;
+    font-size: 30px;
+    font-family: monospace;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+#footlink{
+    text-decoration: none;
+    text-align: center;
+    color: black;
+    font-family: monospace;
+    font-style: italic;
+    font-weight: bold;
+    margin-left: 35px;
+    font-size: 21px;
+    margin-bottom: 10px;
+}

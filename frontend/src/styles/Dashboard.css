@@ -1,0 +1,123 @@
+.dashboard{
+    width: 1022px;
+    height: 442px;
+    margin-top: 15px;
+    margin-left: 20px;
+}
+
+.dashboardImage{
+    width: 1040px;
+    height: 460px;
+    border-radius: 25px;
+}
+
+.bacgroundImage4{
+    background-color: #D9D9D9;
+    width: 1080px;
+    height: 1100px;
+    float: right;
+    margin-right: -60px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.dashTitle{
+    text-align: center;
+    font-size: 96px;
+    font-family: monospace;
+    font-weight: bold;
+    margin-top: -150px;
+}
+
+.service1{
+    width: 150px;
+    height: 150px;
+    background-color: white;
+    margin-top: 50px;
+    float: left;
+    margin-right: -10px;
+    margin-left: 100px;
+    border-radius: 20px;
+}
+
+.service1:hover{
+    background-color: #D7FFBF;
+}
+
+.serv1{
+    margin-top: 220px;
+    margin-left: 130px;
+    font-size: 24px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.serv2{
+    margin-top: -52px;
+    margin-left: 335px;
+    font-size: 24px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.serv3{
+    margin-top: -52px;
+    margin-left: 555px;
+    font-size: 24px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.serv4{
+    margin-top: -52px;
+    margin-left: 815px;
+    font-size: 24px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.serv5{
+    margin-top: 240px;
+    margin-left: 122px;
+    font-size: 24px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.serv6{
+    margin-top: -52px;
+    margin-left: 370px;
+    font-size: 24px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.serv7{
+    margin-top: -52px;
+    margin-left: 602px;
+    font-size: 24px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.serv8{
+    margin-top: -52px;
+    margin-left: 710px;
+    font-size: 24px;
+    font-family: monospace;
+    font-weight: bold;
+    text-align: center;
+}
+
+.serIm{
+    width: 80px;
+    height: 80px;
+    margin-top: 35px;
+    margin-left: 35px;
+}
+
+.teslav{
+    margin-top: -150px;
+    margin-left: -110px;
+}

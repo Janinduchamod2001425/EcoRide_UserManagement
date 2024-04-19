@@ -1,0 +1,106 @@
+.home{
+    width: 80%;
+    height: 650px;
+    background-color: white;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.065);
+    border-radius: 25px;
+    margin: 50px auto;
+    padding: 30px;
+    opacity: 93%;
+}
+
+#homeButton{
+    margin-left: 30px;
+    width: 100px;
+    height: 30px;
+    padding: 10px 20px 10px 20px;
+    background-color: black;
+    text-decoration: none;
+    color: lime;
+    border-radius: 10px;
+    margin-right: 20px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.components{
+    width: 100%;
+    height: 500px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+}
+
+.compoBox{
+    width: 150px;
+    height: 150px;
+    background-color: lime;
+    border-radius: 20px;
+    float: left;
+    margin-left: 99px;
+    margin-right: 40px;
+    margin-top: 20px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.admImage{
+    width: 80px;
+    height: 80px;
+    margin-top: 35px;
+    margin-left: 35px;
+}
+
+.nameTag1{
+    float: left;
+    font-size: 20px;
+    margin-left: 145px;
+    font-weight: bold;
+}
+
+.nameTag2{
+    float: left;
+    font-size: 20px;
+    margin-left: 220px;
+    font-weight: bold;
+}
+
+.nameTag3{
+    float: left;
+    font-size: 20px;
+    margin-left: 200px;
+    font-weight: bold;
+}
+
+.nameTag4{
+    float: left;
+    font-size: 20px;
+    margin-left: 175px;
+    font-weight: bold;
+}
+
+.nameTag5{
+    float: left;
+    font-size: 20px;
+    margin-left: 108px;
+    font-weight: bold;
+}
+
+.nameTag6{
+    float: left;
+    font-size: 20px;
+    margin-left: 175px;
+    font-weight: bold;
+}
+
+.nameTag7{
+    float: left;
+    font-size: 20px;
+    margin-left: 185px;
+    font-weight: bold;
+}
+
+.nameTag8{
+    float: left;
+    font-size: 20px;
+    margin-left: 202px;
+    font-weight: bold;
+}
