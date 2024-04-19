@@ -1,0 +1,27 @@
+.incidentRegister {
+  border-radius: 2%;
+  background-color: white;
+  box-shadow: 1px 1px 10px 2px #e2e2e2;
+  padding: 2%;
+  float: right;
+  position: relative;
+  margin-right: -60px;
+  margin-bottom: 50px;
+  width: 85%;
+}
+
+.incidentView {
+  border-radius: 2%;
+  background-color: white;
+  box-shadow: 1px 1px 10px 2px #e2e2e2;
+  padding: 2%;
+}
+.incidentViewContainer {
+  border-radius: 2%;
+  width: 1080px;
+  float: right;
+  margin-right: -60px;
+  margin-top: 9%;
+  border-radius: 25px;
+  position: relative;
+}

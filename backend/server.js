@@ -7,8 +7,9 @@ import connectDB from "./config/db.js"; // Imports a function (connectDB) to con
 import userRoutes from "./routes/userRoutes.js"; // Imports the routes for user-related operations.
 import packageRoutes from "./routes/packageRoutes.js";
 import reservationRoutes from "./routes/reservationRoutes.js";
-import vehicleRoutes from './routes/vehicleRoutes.js';
-import licenseRoutes from './routes/licenseRoute.js';
+import vehicleRoutes from "./routes/vehicleRoutes.js";
+import licenseRoutes from "./routes/licenseRoute.js";
+import incidentRoutes from "./routes/incidentDetails.routes.js";
 
 connectDB(); // Database connection - Calls the function responsible for connecting to the database.
 
@@ -27,6 +28,7 @@ app.use("/api/packages", packageRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/licenses", licenseRoutes);
+app.use("/api/incidentDetails", incidentRoutes);
 
 // Default Route
 app.get("/", (req, res) => res.send("Server is ready"));
