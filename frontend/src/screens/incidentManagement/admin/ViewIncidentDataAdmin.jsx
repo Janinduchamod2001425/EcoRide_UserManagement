@@ -124,23 +124,103 @@ const ViewIncidentDataAdmin = () => {
       const textX = 50;
       let textY = height - 50;
 
-      const drawText = (text) => {
-        page.drawText(text, {
-          x: textX,
-          y: textY,
+      // const drawText = (text) => {
+      //   page.drawText(text, {
+      //     x: textX,
+      //     y: textY,
+      //     size: fontSize,
+      //     font: timesRomanFont,
+      //     color: rgb(0, 0, 0),
+      //   });
+      //   textY -= 20; // Move to the next line
+      // };
+      const drawText = (label, value) => {
+        // Calculate the width of the label text
+        const labelWidth = timesRomanFont.widthOfTextAtSize(label, fontSize);
+
+        // Set the position to start drawing the label
+        const labelX = textX;
+        const labelY = textY;
+
+        // Set the position to start drawing the value, considering the space after the label
+        const valueX = textX + labelWidth + 10; // Adjust the spacing as needed
+        const valueY = textY;
+
+        // Draw the label
+        page.drawText(label, {
+          x: labelX,
+          y: labelY,
           size: fontSize,
           font: timesRomanFont,
           color: rgb(0, 0, 0),
         });
+
+        // Draw the value
+        page.drawText(value, {
+          x: valueX,
+          y: valueY,
+          size: fontSize,
+          font: timesRomanFont,
+          color: rgb(0, 0, 0),
+        });
+
         textY -= 20; // Move to the next line
       };
 
-      drawText("Incident Report");
+      drawText("Incident Report of : ", incidentData.renterAgreementNumber);
       textY -= 20; // Move to the next line
 
       // Draw incident data onto the page
-      drawText(`Renter Name: ${incidentData.renterName}`);
-      drawText(`Renter Contact Number: ${incidentData.renterContactNumber}`);
+      drawText("Renter Name:", incidentData.renterName);
+      textY -= 10;
+      drawText("Renter Contact Number:", incidentData.renterContactNumber);
+      textY -= 10;
+      // console.log(incidentData.renterAgreementNumber);
+      drawText("Renter Agreement Number:", incidentData.renterAgreementNumber);
+      textY -= 10;
+      drawText("Vehicle Type:", incidentData.vehicleType);
+      textY -= 10;
+      drawText(
+        "Vehicle License Plate Number:",
+        incidentData.vehicleLicensePlateNumber
+      );
+      textY -= 10;
+      const formattedDate = dayjs(incidentData?.incidentDateTime).format(
+        "YYYY-MM-DD"
+      );
+      drawText("Incident Time:", formattedDate);
+      textY -= 10;
+      drawText("Incident Location:", incidentData.incidentLocation);
+      textY -= 10;
+      drawText("Incident Description:", incidentData.incidentDescription);
+      textY -= 10;
+      drawText("Witness Name:", incidentData.witnessName);
+      textY -= 10;
+      drawText("Witness Contact Number:", incidentData.witnessContactNumber);
+      textY -= 10;
+
+      // Add images to the PDF
+      // const imageUrls = incidentData.incidentImages; // Replace with your array of image URLs
+
+      // for (const imageUrl of imageUrls) {
+      //   const imageBytes = await fetch(imageUrl).then((response) =>
+      //     response.arrayBuffer()
+      //   );
+      //   const image = await pdfDoc.embedJpg(imageBytes);
+      //   const imageSize = image.scale(0.5); // Adjust the scale as needed
+
+      //   const imageX = 50; // X coordinate of the image
+      //   const imageY = textY; // Y coordinate of the image
+      //   page.drawImage(image, {
+      //     x: imageX,
+      //     y: imageY,
+      //     width: imageSize.width,
+      //     height: imageSize.height,
+      //   });
+
+      //   textY -= imageSize.height + 20; // Move to the next line after the image
+      // }
+
       // Add more incident data as needed
 
       // Serialize the PDFDocument to bytes (a Uint8Array)

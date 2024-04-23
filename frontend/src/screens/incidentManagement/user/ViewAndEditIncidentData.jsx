@@ -52,7 +52,8 @@ const ViewAndEditIncidentData = () => {
   const [updateIncidentData] = useUpdateIncidentDataMutation();
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-
+  const minDate = dayjs().subtract(7, "day").format("YYYY-MM-DD");
+  const maxDate = dayjs().format("YYYY-MM-DD");
   const getIncidentDataById = async () => {
     try {
       const response = await getById(params.incidentReportId).unwrap();
@@ -141,7 +142,22 @@ const ViewAndEditIncidentData = () => {
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                       type="text"
-                      {...register("renterName", { required: "Required" })}
+                      {...register("renterName", {
+                        required: "Required",
+                        minLength: {
+                          value: 3,
+                          message: "At least 3 characters are required",
+                        },
+                        maxLength: {
+                          value: 50,
+                          message: "Maximum 50 characters only",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z ]*$/,
+                          message:
+                            "Numbers and special characters are not allowed",
+                        },
+                      })}
                     />
                     {errors.renterName && (
                       <Form.Text className="text-danger">
@@ -155,6 +171,19 @@ const ViewAndEditIncidentData = () => {
                       type="text"
                       {...register("rentersContactNumber", {
                         required: "Required",
+                        minLength: {
+                          value: 10,
+                          message: "At least 10 numbers are required",
+                        },
+                        maxLength: {
+                          value: 20,
+                          message: "Maximum 20 numbers only",
+                        },
+                        pattern: {
+                          value: /^[0-9]*$/,
+                          message:
+                            "Letters and special characters are not allowed",
+                        },
                       })}
                     />
                     {errors.rentersContactNumber && (
@@ -171,6 +200,18 @@ const ViewAndEditIncidentData = () => {
                       type="text"
                       {...register("rentalAgreementNumber", {
                         required: "Required",
+                        minLength: {
+                          value: 5,
+                          message: "At least 5 characters are required",
+                        },
+                        maxLength: {
+                          value: 10,
+                          message: "Maximum 10 characters only",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z0-9-]*$/,
+                          message: "Special characters are not allowed",
+                        },
                       })}
                     />
                     {errors.rentalAgreementNumber && (
@@ -211,7 +252,18 @@ const ViewAndEditIncidentData = () => {
                     <Form.Control
                       type="text"
                       {...register("licensePlateNumber", {
-                        required: "Required",
+                        minLength: {
+                          value: 5,
+                          message: "At least 5 characters are required",
+                        },
+                        maxLength: {
+                          value: 10,
+                          message: "Maximum 10 characters only",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z0-9-]*$/,
+                          message: "Special characters are not allowed",
+                        },
                       })}
                     />
                     {errors.licensePlateNumber && (
@@ -234,6 +286,8 @@ const ViewAndEditIncidentData = () => {
                       {...register("incidentDateTime", {
                         required: "Required",
                       })}
+                      min={minDate} // Set the minimum date
+                      max={maxDate} // Set the maximum date
                     />
                     {errors.incidentDate && (
                       <Form.Text className="text-danger">
@@ -247,6 +301,18 @@ const ViewAndEditIncidentData = () => {
                       type="text"
                       {...register("incidentLocation", {
                         required: "Required",
+                        minLength: {
+                          value: 3,
+                          message: "At least 3 characters are required",
+                        },
+                        maxLength: {
+                          value: 60,
+                          message: "Maximum 60 characters only",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z0-9 ,-]*$/,
+                          message: "Special characters are not allowed",
+                        },
                       })}
                     />
                     {errors.incidentLocation && (
@@ -268,6 +334,18 @@ const ViewAndEditIncidentData = () => {
                         style={{ height: "100px" }}
                         {...register("incidentDescription", {
                           required: "Required",
+                          minLength: {
+                            value: 3,
+                            message: "At least 3 characters are required",
+                          },
+                          maxLength: {
+                            value: 500,
+                            message: "Maximum 500 characters only",
+                          },
+                          pattern: {
+                            value: /^[a-zA-Z0-9 ,-]*$/,
+                            message: "Special characters are not allowed",
+                          },
                         })}
                       />
                     </FloatingLabel>
@@ -290,6 +368,19 @@ const ViewAndEditIncidentData = () => {
                       type="text"
                       {...register("witnessName", {
                         required: "Required",
+                        minLength: {
+                          value: 3,
+                          message: "At least 3 characters are required",
+                        },
+                        maxLength: {
+                          value: 50,
+                          message: "Maximum 50 characters only",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z ]*$/,
+                          message:
+                            "Numbers and special characters are not allowed",
+                        },
                       })}
                     />
                     {errors.witnessName && (
@@ -304,6 +395,19 @@ const ViewAndEditIncidentData = () => {
                       type="text"
                       {...register("witnessContactNumber", {
                         required: "Required",
+                        minLength: {
+                          value: 10,
+                          message: "At least 10 numbers are required",
+                        },
+                        maxLength: {
+                          value: 20,
+                          message: "Maximum 20 numbers only",
+                        },
+                        pattern: {
+                          value: /^[0-9]*$/,
+                          message:
+                            "Letters and special characters are not allowed",
+                        },
                       })}
                     />
                     {errors.witnessContactNumber && (
@@ -315,9 +419,7 @@ const ViewAndEditIncidentData = () => {
                 </Row>
                 <Row>
                   {/* Display incident images */}
-                  {incidentData &&
-                  incidentData.incidentImages &&
-                  incidentData.incidentImages.length > 0 ? (
+                  {incidentData && incidentData.incidentImages ? (
                     <div>
                       <SubHeader name={"Incident Images"} />
                       <div className="incident-images-container">

@@ -56,8 +56,9 @@
   margin-left: 35px;
 }
 .dashobordButtonText {
-  margin-top: 170px;
-  margin-left: 70px;
+  /* margin-top: 170px; */
+  margin-left: 80px;
+  text-align: center;
   font-size: 24px;
   font-family: monospace;
   font-weight: bold;

@@ -6,7 +6,6 @@ export const incidentApiSLice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     saveIncidentData: builder.mutation({
       query: (data) => {
-        console.log("service", data);
         return {
           url: `${USERS_URL}`,
           method: "POST",
@@ -34,7 +33,6 @@ export const incidentApiSLice = apiSlice.injectEndpoints({
 
     getAllIncidentData: builder.mutation({
       query: (id) => {
-        console.log("Data:", id); // Log the data
         return {
           url: `${USERS_URL}/findbyuserid/${id}`,
           method: "GET",

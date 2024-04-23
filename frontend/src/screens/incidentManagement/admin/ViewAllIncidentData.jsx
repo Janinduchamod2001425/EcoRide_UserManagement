@@ -43,7 +43,7 @@ const ViewAllIncidentData = () => {
 
   const handleViewMoreAndEditReport = (id) => {
     // 👇️ Navigate to /contacts
-    navigate(`/viewandeditincidentdata/${id}`);
+    navigate(`/viewincidentdata/${id}`);
   };
 
   const handleOpenConfirmation = (id) => {
@@ -106,7 +106,7 @@ const ViewAllIncidentData = () => {
                               }
                               variant="outline-secondary"
                             >
-                              View & Edit
+                              View more
                               {/* <img src={edit} className="edt" /> */}
                             </Button>
                             <Button

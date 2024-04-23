@@ -18,7 +18,8 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 
 const IncidentRegister = () => {
   const {
@@ -27,6 +28,7 @@ const IncidentRegister = () => {
     getValues,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: "onTouched",
@@ -35,36 +37,18 @@ const IncidentRegister = () => {
     // defaultValues: initialValues,
   });
   const { userInfo } = useSelector((state) => state.auth);
-  console.log(userInfo._id);
   const [saveIncidentData, { isLoading }] = useSaveIncidentDataMutation();
 
   const [images, setImages] = useState([]);
   const [urls, setUrls] = useState([]);
   const [progress, setProgress] = useState(0);
+  const minDate = dayjs().subtract(7, "day").format("YYYY-MM-DD");
+  const maxDate = dayjs().format("YYYY-MM-DD");
+  useEffect(() => {
+    setValue("renterName", userInfo.name);
+    setValue("rentersContactNumber", userInfo.contact);
+  }, [setValue]);
 
-  const onSubmitt = async (values) => {
-    try {
-      const obj = {
-        renterName: values.renterName,
-        renterContactNumber: values.rentersContactNumber,
-        renterAgreementNumber: values.rentalAgreementNumber,
-        vehicleType: values.vehicleType,
-        vehicleLicensePlateNumber: values.licensePlateNumber,
-        incidentDateTime: values.incidentDate,
-        incidentLocation: values.incidentLocation,
-        incidentDescription: values.incidentDescription,
-        witnessName: values.witnessName,
-        witnessContactNumber: values.witnessContactNumber,
-        userId: userInfo._id,
-      };
-      const response = await saveIncidentData(obj).unwrap();
-      toast.success("Incident Data saved successfully.");
-      reset();
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong.");
-    }
-  };
   const onError = (error) => {
     console.log("ERROR:::", error);
   };
@@ -79,139 +63,78 @@ const IncidentRegister = () => {
 
   const onSubmit = async (values) => {
     const promises = [];
-    images.map((image) => {
-      // const uploadTask = storage.ref(`incidentimages/${image.name}`).put(image);
-      // promises.push(uploadTask);
-      // uploadTask.on(
-      //   "state_changed",
-      //   (snapshot) => {
-      //     const progress = Math.round(
-      //       (snapshot.byteTransferred / snapshot.totalBytes) * 100
-      //     );
-      //     setProgress(progress);
-      //   },
-      //   (error) => {
-      //     toast.error(error);
-      //   },
-      //   async () => {
-      //     await storage
-      //       .ref("incidentimages")
-      //       .child(image.name)
-      //       .getDownloadURL()
-      //       .then((urls) => {
-      //         setUrls((prevState) => [...prevState, urls]);
-      //       });
-      //   }
-      // );
+    const downloadURLPromises = []; // Array to hold promises for getDownloadURL
+
+    images.forEach((image) => {
       const storageRef = ref(storage, `/incidentImages/${image.name}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(progress);
-          console.log(progress);
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log(downloadURL);
-            setUrls((prevState) => [...prevState, downloadURL]);
-          });
-        }
-      );
+      promises.push(uploadTask);
+      const downloadURLPromise = new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setProgress(progress);
+            // console.log(progress);
+          },
+          (error) => {
+            console.log(error);
+            reject(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref)
+              .then((downloadURL) => {
+                setUrls((prevState) => [...prevState, downloadURL]);
+                resolve(downloadURL); // Resolve the promise with the downloadURL
+              })
+              .catch((error) => {
+                console.log(error);
+                reject(error);
+              });
+          }
+        );
+      });
+      downloadURLPromises.push(downloadURLPromise); // Push the download URL promise to the array
     });
-    if (urls) {
-      try {
-        const obj = {
-          renterName: values.renterName,
-          renterContactNumber: values.rentersContactNumber,
-          renterAgreementNumber: values.rentalAgreementNumber,
-          vehicleType: values.vehicleType,
-          vehicleLicensePlateNumber: values.licensePlateNumber,
-          incidentDateTime: values.incidentDate,
-          incidentLocation: values.incidentLocation,
-          incidentDescription: values.incidentDescription,
-          witnessName: values.witnessName,
-          witnessContactNumber: values.witnessContactNumber,
-          userId: userInfo._id,
-          incidentImages: urls,
-        };
-        const response = await saveIncidentData(obj).unwrap();
-        toast.success("Incident Data saved successfully.");
-        reset();
-      } catch (error) {
-        console.log(error);
-        toast.error("Something went wrong.");
-      }
-    }
-    // Promise.all(promises)
-    //   .then(() => toast.success("All images have been uploaded."))
-    //   .catch((error) => toast.error(error));
+
+    // Wait for all upload tasks to complete
+    Promise.all(promises)
+      .then(() => {
+        // After all upload tasks are complete, wait for all download URL promises to resolve
+        Promise.all(downloadURLPromises)
+          .then(async (downloadURLs) => {
+            // Now all download URLs are available
+            // console.log(downloadURLs);
+            // Proceed with saving incident data using the download URLs
+            const obj = {
+              renterName: values.renterName,
+              renterContactNumber: values.rentersContactNumber,
+              renterAgreementNumber: values.rentalAgreementNumber,
+              vehicleType: values.vehicleType,
+              vehicleLicensePlateNumber: values.licensePlateNumber,
+              incidentDateTime: values.incidentDate,
+              incidentLocation: values.incidentLocation,
+              incidentDescription: values.incidentDescription,
+              witnessName: values.witnessName,
+              witnessContactNumber: values.witnessContactNumber,
+              userId: userInfo._id,
+              incidentImages: downloadURLs,
+            };
+            const response = await saveIncidentData(obj).unwrap();
+            toast.success("Incident Data saved successfully.");
+            reset();
+
+            // Save incident data
+            // Example: await saveIncidentData(obj);
+          })
+          .catch((error) => toast.error(error));
+      })
+      .catch((error) => toast.error(error));
   };
-  // const onSubmit = async (values) => {
-  //   const promises = [];
-  //   images.map((image) => {
-  //     const storageRef = ref(storage, `/incidentImages/${image.name}`);
-  //     const uploadTask = uploadBytesResumable(storageRef, image);
 
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         const progress = Math.round(
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  //         );
-  //         setProgress(progress);
-  //         console.log(progress);
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       },
-  //       async () => {
-  //         // Make the callback function asynchronous
-  //         try {
-  //           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-  //           console.log(downloadURL);
-  //           setUrls((prevState) => [...prevState, downloadURL]);
-
-  //           if (urls) {
-  //             const obj = {
-  //               renterName: values.renterName,
-  //               renterContactNumber: values.rentersContactNumber,
-  //               renterAgreementNumber: values.rentalAgreementNumber,
-  //               vehicleType: values.vehicleType,
-  //               vehicleLicensePlateNumber: values.licensePlateNumber,
-  //               incidentDateTime: values.incidentDate,
-  //               incidentLocation: values.incidentLocation,
-  //               incidentDescription: values.incidentDescription,
-  //               witnessName: values.witnessName,
-  //               witnessContactNumber: values.witnessContactNumber,
-  //               userId: userInfo._id,
-  //               incidentImages: urls,
-  //             };
-  //             console.log("FE", obj);
-  //             const response = await saveIncidentData(obj).unwrap();
-  //             toast.success("Incident Data saved successfully.");
-  //             // setImages([]);
-  //             // setUrls([]);
-  //             reset();
-  //           }
-  //         } catch (error) {
-  //           console.log(error);
-  //           toast.error("Something went wrong.");
-  //         }
-  //       }
-  //     );
-  //   });
-  // };
-
-  // console.log("images: ", images);
-  console.log("urls", urls);
+  // console.log("images: ", urls);
   return (
     <div className="py-5">
       <div className="searchbar">
@@ -230,7 +153,22 @@ const IncidentRegister = () => {
                   <Form.Control
                     type="text"
                     placeholder="Tim David"
-                    {...register("renterName", { required: "Required" })}
+                    {...register("renterName", {
+                      required: "Required",
+                      minLength: {
+                        value: 3,
+                        message: "At least 3 characters are required",
+                      },
+                      maxLength: {
+                        value: 50,
+                        message: "Maximum 50 characters only",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z ]*$/,
+                        message:
+                          "Numbers and special characters are not allowed",
+                      },
+                    })}
                   />
                   {errors.renterName && (
                     <Form.Text className="text-danger">
@@ -245,6 +183,19 @@ const IncidentRegister = () => {
                     placeholder="7789638888"
                     {...register("rentersContactNumber", {
                       required: "Required",
+                      minLength: {
+                        value: 10,
+                        message: "At least 10 numbers are required",
+                      },
+                      maxLength: {
+                        value: 20,
+                        message: "Maximum 20 numbers only",
+                      },
+                      pattern: {
+                        value: /^[0-9]*$/,
+                        message:
+                          "Letters and special characters are not allowed",
+                      },
                     })}
                   />
                   {errors.rentersContactNumber && (
@@ -262,6 +213,18 @@ const IncidentRegister = () => {
                     placeholder="RA-001"
                     {...register("rentalAgreementNumber", {
                       required: "Required",
+                      minLength: {
+                        value: 5,
+                        message: "At least 5 characters are required",
+                      },
+                      maxLength: {
+                        value: 10,
+                        message: "Maximum 10 characters only",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z0-9-]*$/,
+                        message: "Special characters are not allowed",
+                      },
                     })}
                   />
                   {errors.rentalAgreementNumber && (
@@ -303,7 +266,18 @@ const IncidentRegister = () => {
                     type="text"
                     placeholder="CAB-0011"
                     {...register("licensePlateNumber", {
-                      required: "Required",
+                      minLength: {
+                        value: 5,
+                        message: "At least 5 characters are required",
+                      },
+                      maxLength: {
+                        value: 10,
+                        message: "Maximum 10 characters only",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z0-9-]*$/,
+                        message: "Special characters are not allowed",
+                      },
                     })}
                   />
                   {errors.licensePlateNumber && (
@@ -326,6 +300,8 @@ const IncidentRegister = () => {
                     {...register("incidentDate", {
                       required: "Required",
                     })}
+                    min={minDate} // Set the minimum date
+                    max={maxDate} // Set the maximum date
                   />
                   {errors.incidentDate && (
                     <Form.Text className="text-danger">
@@ -340,6 +316,18 @@ const IncidentRegister = () => {
                     placeholder="Colombo"
                     {...register("incidentLocation", {
                       required: "Required",
+                      minLength: {
+                        value: 3,
+                        message: "At least 3 characters are required",
+                      },
+                      maxLength: {
+                        value: 60,
+                        message: "Maximum 60 characters only",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z0-9 ,-]*$/,
+                        message: "Special characters are not allowed",
+                      },
                     })}
                   />
                   {errors.incidentLocation && (
@@ -361,6 +349,18 @@ const IncidentRegister = () => {
                       style={{ height: "100px" }}
                       {...register("incidentDescription", {
                         required: "Required",
+                        minLength: {
+                          value: 3,
+                          message: "At least 3 characters are required",
+                        },
+                        maxLength: {
+                          value: 500,
+                          message: "Maximum 500 characters only",
+                        },
+                        pattern: {
+                          value: /^[a-zA-Z0-9 ,-]*$/,
+                          message: "Special characters are not allowed",
+                        },
                       })}
                     />
                   </FloatingLabel>
@@ -384,6 +384,19 @@ const IncidentRegister = () => {
                     placeholder="Tim David"
                     {...register("witnessName", {
                       required: "Required",
+                      minLength: {
+                        value: 3,
+                        message: "At least 3 characters are required",
+                      },
+                      maxLength: {
+                        value: 50,
+                        message: "Maximum 50 characters only",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z ]*$/,
+                        message:
+                          "Numbers and special characters are not allowed",
+                      },
                     })}
                   />
                   {errors.witnessName && (
@@ -399,6 +412,19 @@ const IncidentRegister = () => {
                     placeholder="7789638888"
                     {...register("witnessContactNumber", {
                       required: "Required",
+                      minLength: {
+                        value: 10,
+                        message: "At least 10 numbers are required",
+                      },
+                      maxLength: {
+                        value: 20,
+                        message: "Maximum 20 numbers only",
+                      },
+                      pattern: {
+                        value: /^[0-9]*$/,
+                        message:
+                          "Letters and special characters are not allowed",
+                      },
                     })}
                   />
                   {errors.witnessContactNumber && (
@@ -424,6 +450,7 @@ const IncidentRegister = () => {
                       onChange={handleChange}
                     />
                   </Form.Group>
+
                   {/* <button onClick={}>Upload</button> */}
                 </Col>
               </Row>

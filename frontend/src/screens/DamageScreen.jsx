@@ -17,40 +17,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 const DamageScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  console.log(userInfo);
-  // return (
-  //   <div className="py-5">
-  //     <div className="searchbar">
-  //       <img src={searchIcon} className="search_icon" />
-  //     </div>
-
-  //     <div className={styles.dashboardBackground}>
-  //       <div className="dashboard">
-  //         <img src={dashboardBG} className="dashboardImage" />
-  //       </div>
-  //       <p className="dashTitle">Incident Management</p>
-
-  //       <br />
-  //       <br />
-  //       <Link to="/addincident">
-  //         <div className={styles.dashboardButtonContainer}>
-  //           <img src={profile} className={styles.buttonImage} />
-  //         </div>
-  //       </Link>
-  //       <Link to="/viewincident">
-  //         <div className={styles.dashboardButtonContainer}>
-  //           <img src={ownvehi} className={styles.buttonImage} />
-  //         </div>
-  //       </Link>
-
-  //       <p className={styles.dashobordButtonText}>Add new incident</p>
-  //       <p className="serv2">View Incident</p>
-  //     </div>
-  //     <SideNavigation />
-  //     <Footer />
-  //   </div>
-  // );
-
   const renderContent = () => {
     if (userInfo.role === "Customer") {
       return (
@@ -63,19 +29,30 @@ const DamageScreen = () => {
           <br />
           <br />
           <div>
-            <Link to="/addincident">
-              <div className={styles.dashboardButtonContainer}>
-                <img src={profile} className={styles.buttonImage} />
-              </div>
-            </Link>
-            <Link to="/viewincident">
-              <div className={styles.dashboardButtonContainer}>
-                <img src={ownvehi} className={styles.buttonImage} />
-              </div>
-            </Link>
-
-            <p className={styles.dashobordButtonText}>Add new incident</p>
-            <p className="serv2">View Incident</p>
+            <Row style={{ width: "50%" }}>
+              <Col>
+                <Link to="/addincident">
+                  <div className={styles.dashboardButtonContainer}>
+                    <img src={profile} className={styles.buttonImage} />
+                  </div>
+                </Link>
+              </Col>
+              <Col>
+                <Link to="/viewincident">
+                  <div className={styles.dashboardButtonContainer}>
+                    <img src={ownvehi} className={styles.buttonImage} />
+                  </div>
+                </Link>
+              </Col>
+            </Row>
+            <Row style={{ width: "50%" }}>
+              <Col>
+                <p className={styles.dashobordButtonText}>Add new incident</p>
+              </Col>
+              <Col>
+                <p className={styles.dashobordButtonText}>View Incident</p>
+              </Col>
+            </Row>
           </div>
         </div>
       );
