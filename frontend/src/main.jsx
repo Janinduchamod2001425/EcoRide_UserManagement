@@ -42,6 +42,10 @@ import DrivingLicenseScreen from "./screens/DrivingLicenseScreen.jsx";
 import IncidentRegister from "./screens/incidentManagement/user/IncidentRegister.jsx";
 import ViewIncidentData from "./screens/incidentManagement/user/ViewIncidentData.jsx";
 import ViewAndEditIncidentData from "./screens/incidentManagement/user/ViewAndEditIncidentData.jsx";
+import CustomerPrivateRoute from "./components/CustomerPrivateRoute.jsx";
+import ViewAllIncidentData from "./screens/incidentManagement/admin/ViewAllIncidentData.jsx";
+import ViewIncidentAdmin from "./screens/incidentManagement/admin/ViewIncidentDataAdmin.jsx";
+import ViewIncidentDataAdmin from "./screens/incidentManagement/admin/ViewIncidentDataAdmin.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -63,15 +67,10 @@ const router = createBrowserRouter(
         <Route path="/packagesdetail" element={<PackageDetailsScreen />} />
         <Route path="/reservation" element={<ReservationScreen />} />
         <Route path="/maintenance" element={<MaintenanceScreen />} />
-        <Route path="/incident" element={<DamageScreen />} />
         <Route path="/feedback" element={<FeedbackRatingScreen />} />
         <Route path="/loyalty" element={<LoyaltyScreen />} />
-        <Route path="/addincident" element={<IncidentRegister />} />
-        <Route path="/viewincident" element={<ViewIncidentData />} />
-        <Route
-          path="/viewandeditincidentdata/:incidentReportId"
-          element={<ViewAndEditIncidentData />}
-        />
+        <Route path="/incident" element={<DamageScreen />} />
+
         {/* Vehicle Types */}
         <Route path="/ecars" element={<E_CarsPage />} />
       </Route>
@@ -80,6 +79,11 @@ const router = createBrowserRouter(
       <Route path="" element={<AdminPrivateRoute />}>
         <Route path="/admindashboard" element={<AdminDashboardScreen />} />
         <Route path="/usersReport" element={<UserReport />} />
+        <Route path="/viewallincidentdata" element={<ViewAllIncidentData />} />
+        <Route
+          path="/viewincidentdata/:incidentReportId"
+          element={<ViewIncidentDataAdmin />}
+        />
       </Route>
 
       {/* Private Vehicle Owner Routes */}
@@ -91,6 +95,16 @@ const router = createBrowserRouter(
       <Route path="" element={<DriverPrivateRoute />}>
         <Route path="/add-license" element={<LicenseScreen />} />
         <Route path="/driverLicense" element={<DrivingLicenseScreen />} />
+      </Route>
+
+      {/* Private CustomerRoutes */}
+      <Route path="" element={<CustomerPrivateRoute />}>
+        <Route path="/addincident" element={<IncidentRegister />} />
+        <Route path="/viewincident" element={<ViewIncidentData />} />
+        <Route
+          path="/viewandeditincidentdata/:incidentReportId"
+          element={<ViewAndEditIncidentData />}
+        />{" "}
       </Route>
     </Route>
   )

@@ -10,6 +10,15 @@ import { useForm } from "react-hook-form";
 import { useSaveIncidentDataMutation } from "../../../slices/incidentDetailsSlice";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
+// import { storage } from "../../../../firebase";
+import { storage } from "../../../../firebase";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+import { useState } from "react";
 
 const IncidentRegister = () => {
   const {
@@ -28,7 +37,12 @@ const IncidentRegister = () => {
   const { userInfo } = useSelector((state) => state.auth);
   console.log(userInfo._id);
   const [saveIncidentData, { isLoading }] = useSaveIncidentDataMutation();
-  const onSubmit = async (values) => {
+
+  const [images, setImages] = useState([]);
+  const [urls, setUrls] = useState([]);
+  const [progress, setProgress] = useState(0);
+
+  const onSubmitt = async (values) => {
     try {
       const obj = {
         renterName: values.renterName,
@@ -54,6 +68,150 @@ const IncidentRegister = () => {
   const onError = (error) => {
     console.log("ERROR:::", error);
   };
+
+  const handleChange = (e) => {
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[i];
+      newImage["id"] = Math.random();
+      setImages((prevState) => [...prevState, newImage]);
+    }
+  };
+
+  const onSubmit = async (values) => {
+    const promises = [];
+    images.map((image) => {
+      // const uploadTask = storage.ref(`incidentimages/${image.name}`).put(image);
+      // promises.push(uploadTask);
+      // uploadTask.on(
+      //   "state_changed",
+      //   (snapshot) => {
+      //     const progress = Math.round(
+      //       (snapshot.byteTransferred / snapshot.totalBytes) * 100
+      //     );
+      //     setProgress(progress);
+      //   },
+      //   (error) => {
+      //     toast.error(error);
+      //   },
+      //   async () => {
+      //     await storage
+      //       .ref("incidentimages")
+      //       .child(image.name)
+      //       .getDownloadURL()
+      //       .then((urls) => {
+      //         setUrls((prevState) => [...prevState, urls]);
+      //       });
+      //   }
+      // );
+      const storageRef = ref(storage, `/incidentImages/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+          console.log(progress);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log(downloadURL);
+            setUrls((prevState) => [...prevState, downloadURL]);
+          });
+        }
+      );
+    });
+    if (urls) {
+      try {
+        const obj = {
+          renterName: values.renterName,
+          renterContactNumber: values.rentersContactNumber,
+          renterAgreementNumber: values.rentalAgreementNumber,
+          vehicleType: values.vehicleType,
+          vehicleLicensePlateNumber: values.licensePlateNumber,
+          incidentDateTime: values.incidentDate,
+          incidentLocation: values.incidentLocation,
+          incidentDescription: values.incidentDescription,
+          witnessName: values.witnessName,
+          witnessContactNumber: values.witnessContactNumber,
+          userId: userInfo._id,
+          incidentImages: urls,
+        };
+        const response = await saveIncidentData(obj).unwrap();
+        toast.success("Incident Data saved successfully.");
+        reset();
+      } catch (error) {
+        console.log(error);
+        toast.error("Something went wrong.");
+      }
+    }
+    // Promise.all(promises)
+    //   .then(() => toast.success("All images have been uploaded."))
+    //   .catch((error) => toast.error(error));
+  };
+  // const onSubmit = async (values) => {
+  //   const promises = [];
+  //   images.map((image) => {
+  //     const storageRef = ref(storage, `/incidentImages/${image.name}`);
+  //     const uploadTask = uploadBytesResumable(storageRef, image);
+
+  //     uploadTask.on(
+  //       "state_changed",
+  //       (snapshot) => {
+  //         const progress = Math.round(
+  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+  //         );
+  //         setProgress(progress);
+  //         console.log(progress);
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       },
+  //       async () => {
+  //         // Make the callback function asynchronous
+  //         try {
+  //           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+  //           console.log(downloadURL);
+  //           setUrls((prevState) => [...prevState, downloadURL]);
+
+  //           if (urls) {
+  //             const obj = {
+  //               renterName: values.renterName,
+  //               renterContactNumber: values.rentersContactNumber,
+  //               renterAgreementNumber: values.rentalAgreementNumber,
+  //               vehicleType: values.vehicleType,
+  //               vehicleLicensePlateNumber: values.licensePlateNumber,
+  //               incidentDateTime: values.incidentDate,
+  //               incidentLocation: values.incidentLocation,
+  //               incidentDescription: values.incidentDescription,
+  //               witnessName: values.witnessName,
+  //               witnessContactNumber: values.witnessContactNumber,
+  //               userId: userInfo._id,
+  //               incidentImages: urls,
+  //             };
+  //             console.log("FE", obj);
+  //             const response = await saveIncidentData(obj).unwrap();
+  //             toast.success("Incident Data saved successfully.");
+  //             // setImages([]);
+  //             // setUrls([]);
+  //             reset();
+  //           }
+  //         } catch (error) {
+  //           console.log(error);
+  //           toast.error("Something went wrong.");
+  //         }
+  //       }
+  //     );
+  //   });
+  // };
+
+  // console.log("images: ", images);
+  console.log("urls", urls);
   return (
     <div className="py-5">
       <div className="searchbar">
@@ -259,8 +417,14 @@ const IncidentRegister = () => {
                 <Col>
                   <Form.Group controlId="incidentImages" className="mb-3">
                     <Form.Label>Select Images</Form.Label>
-                    <Form.Control type="file" size="lg" />
+                    <Form.Control
+                      type="file"
+                      multiple
+                      size="lg"
+                      onChange={handleChange}
+                    />
                   </Form.Group>
+                  {/* <button onClick={}>Upload</button> */}
                 </Col>
               </Row>
               <Row>

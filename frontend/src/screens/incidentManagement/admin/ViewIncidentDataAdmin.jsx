@@ -25,8 +25,11 @@ import { useForm } from "react-hook-form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import dayjs from "dayjs";
 import { storage } from "../../../../firebase";
+// import PDFDocument from "../components/PDFDocument";
+import PDFDocumentGenerate from "../components/GeneratePDF";
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 
-const ViewAndEditIncidentData = () => {
+const ViewIncidentDataAdmin = () => {
   const params = useParams();
   const [incidentData, setIncidentData] = useState(null);
   const { userInfo } = useSelector((state) => state.auth);
@@ -52,6 +55,7 @@ const ViewAndEditIncidentData = () => {
   const [updateIncidentData] = useUpdateIncidentDataMutation();
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showPDF, setShowPDF] = useState(false);
 
   const getIncidentDataById = async () => {
     try {
@@ -87,35 +91,6 @@ const ViewAndEditIncidentData = () => {
     setValue("witnessContactNumber", incidentData?.witnessContactNumber);
   }, [setValue, incidentData]);
 
-  const onSubmit = async (values) => {
-    try {
-      const obj = {
-        renterName: values.renterName,
-        renterContactNumber: values.rentersContactNumber,
-        renterAgreementNumber: values.rentalAgreementNumber,
-        vehicleType: values.vehicleType,
-        vehicleLicensePlateNumber: values.licensePlateNumber,
-        incidentDateTime: values.incidentDateTime,
-        incidentLocation: values.incidentLocation,
-        incidentDescription: values.incidentDescription,
-        witnessName: values.witnessName,
-        witnessContactNumber: values.witnessContactNumber,
-        userId: userInfo._id,
-      };
-      const response = await updateIncidentData({
-        id: params.incidentReportId,
-        data: obj,
-      }).unwrap();
-      toast.success(response.message);
-      getIncidentDataById();
-      // reset();
-    } catch (error) {
-      getIncidentDataById();
-      console.log(error);
-      toast.error("Something went wrong.");
-    }
-  };
-
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
     setShowModal(true);
@@ -126,15 +101,103 @@ const ViewAndEditIncidentData = () => {
     setSelectedImage(null);
   };
 
+  const handleDownloadPDF = () => {
+    setShowPDF(true);
+  };
+
+  const generatePDF = async () => {
+    try {
+      // Create a new PDFDocument
+      const pdfDoc = await PDFDocument.create();
+
+      // Embed the Times Roman font
+      const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+
+      // Add a blank page to the document
+      const page = pdfDoc.addPage();
+
+      // Get the width and height of the page
+      const { width, height } = page.getSize();
+
+      // Draw incident data onto the page
+      const fontSize = 12;
+      const textX = 50;
+      let textY = height - 50;
+
+      const drawText = (text) => {
+        page.drawText(text, {
+          x: textX,
+          y: textY,
+          size: fontSize,
+          font: timesRomanFont,
+          color: rgb(0, 0, 0),
+        });
+        textY -= 20; // Move to the next line
+      };
+
+      drawText("Incident Report");
+      textY -= 20; // Move to the next line
+
+      // Draw incident data onto the page
+      drawText(`Renter Name: ${incidentData.renterName}`);
+      drawText(`Renter Contact Number: ${incidentData.renterContactNumber}`);
+      // Add more incident data as needed
+
+      // Serialize the PDFDocument to bytes (a Uint8Array)
+      const pdfBytes = await pdfDoc.save();
+
+      // Convert PDF bytes to a Blob
+      const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
+
+      // Create a URL for the Blob
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+
+      // Create a link element to trigger download
+      const link = document.createElement("a");
+      link.href = pdfUrl;
+      link.download = "incident_report.pdf";
+      link.click();
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
+  };
+
   return (
     <div className="py-5">
       <div className="searchbar">
         <img src={searchIcon} className="search_icon" />
         <div className={styles.incidentViewContainer}>
           <Container className={styles.incidentView}>
-            <MainHeader name="View and Edit Incident Data" />
+            <Row>
+              <Col>
+                <MainHeader name="View Incident Data" />
+              </Col>
+              <Col>
+                <div style={{ display: "flex", justifyContent: "end" }}>
+                  <Button
+                    style={{
+                      backgroundColor: "rgba(85, 190, 21, 0.8)",
+                      borderColor: "rgba(85, 190, 21, 0.5)",
+                      width: "220px",
+                      transition: "background-color 0.3s", // Add transition for smooth effect
+                      outline: "none", // Remove default outline
+                    }}
+                    type="submit"
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = "rgba(85, 190, 21, 1)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = "rgba(85, 190, 21, 0.8)";
+                    }}
+                    onClick={generatePDF}
+                  >
+                    Click to download report
+                  </Button>
+                </div>
+              </Col>
+            </Row>
             <SubHeader name={"Renters Information"} />
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form>
               <Form.Group className="mb-3" controlId="registerForm">
                 <Row>
                   <Col>
@@ -142,6 +205,7 @@ const ViewAndEditIncidentData = () => {
                     <Form.Control
                       type="text"
                       {...register("renterName", { required: "Required" })}
+                      readOnly="true"
                     />
                     {errors.renterName && (
                       <Form.Text className="text-danger">
@@ -156,6 +220,7 @@ const ViewAndEditIncidentData = () => {
                       {...register("rentersContactNumber", {
                         required: "Required",
                       })}
+                      readOnly="true"
                     />
                     {errors.rentersContactNumber && (
                       <Form.Text className="text-danger">
@@ -172,6 +237,7 @@ const ViewAndEditIncidentData = () => {
                       {...register("rentalAgreementNumber", {
                         required: "Required",
                       })}
+                      readOnly="true"
                     />
                     {errors.rentalAgreementNumber && (
                       <Form.Text className="text-danger">
@@ -194,6 +260,7 @@ const ViewAndEditIncidentData = () => {
                       {...register("vehicleType", {
                         required: "Required",
                       })}
+                      readOnly="true"
                     >
                       <option value="1">Toyota axios - 001 model</option>
                       <option value="2">Mitsubughi G7</option>
@@ -213,6 +280,7 @@ const ViewAndEditIncidentData = () => {
                       {...register("licensePlateNumber", {
                         required: "Required",
                       })}
+                      readOnly="true"
                     />
                     {errors.licensePlateNumber && (
                       <Form.Text className="text-danger">
@@ -234,6 +302,7 @@ const ViewAndEditIncidentData = () => {
                       {...register("incidentDateTime", {
                         required: "Required",
                       })}
+                      readOnly="true"
                     />
                     {errors.incidentDate && (
                       <Form.Text className="text-danger">
@@ -248,6 +317,7 @@ const ViewAndEditIncidentData = () => {
                       {...register("incidentLocation", {
                         required: "Required",
                       })}
+                      readOnly="true"
                     />
                     {errors.incidentLocation && (
                       <Form.Text className="text-danger">
@@ -269,6 +339,7 @@ const ViewAndEditIncidentData = () => {
                         {...register("incidentDescription", {
                           required: "Required",
                         })}
+                        readOnly="true"
                       />
                     </FloatingLabel>
                     {errors.incidentDescription && (
@@ -291,6 +362,7 @@ const ViewAndEditIncidentData = () => {
                       {...register("witnessName", {
                         required: "Required",
                       })}
+                      readOnly="true"
                     />
                     {errors.witnessName && (
                       <Form.Text className="text-danger">
@@ -305,6 +377,7 @@ const ViewAndEditIncidentData = () => {
                       {...register("witnessContactNumber", {
                         required: "Required",
                       })}
+                      readOnly="true"
                     />
                     {errors.witnessContactNumber && (
                       <Form.Text className="text-danger">
@@ -353,7 +426,7 @@ const ViewAndEditIncidentData = () => {
                     </Form.Group>
                   </Col>
                 </Row> */}
-                <Row>
+                {/* <Row>
                   <div style={{ display: "flex", justifyContent: "end" }}>
                     <Button
                       style={{
@@ -375,7 +448,7 @@ const ViewAndEditIncidentData = () => {
                       Submit
                     </Button>
                   </div>
-                </Row>
+                </Row> */}
               </Form.Group>
             </Form>
           </Container>
@@ -392,8 +465,11 @@ const ViewAndEditIncidentData = () => {
           />
         </Modal.Body>
       </Modal>
+
+      {/* PDF viewer */}
+      {/* {showPDF && <PDFDocumentGenerate data={incidentData} />} */}
     </div>
   );
 };
 
-export default ViewAndEditIncidentData;
+export default ViewIncidentDataAdmin;

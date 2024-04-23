@@ -58,7 +58,7 @@ export const findOne = (req, res) => {
 };
 
 export const findAllByUserId = (req, res) => {
-  const userId = req.params.userId; // Extract user ID from request parameters
+  const userId = req.params.id; // Extract user ID from request parameters
   IncidentDetails.find({ userId: userId }) // Find all incident details with the specified user ID
     .then((data) => {
       if (!data || data.length === 0) {

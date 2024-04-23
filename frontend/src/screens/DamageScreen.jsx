@@ -1,32 +1,125 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Damage.css";
-import { Button } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 import foot from "../images/Footer image.png";
 import searchIcon from "../images/home/search.png";
 import SideNavigation from "./incidentManagement/components/sideNavigation";
 import Footer from "./incidentManagement/components/Footer";
+import dashboardBG from "../images/dashboard/userDashboard.png";
+import profile from "../images/dashboard/Man 1.png";
+import ownvehi from "../images/dashboard/Keys Holder 1.png";
+import styles from "./incidentManagement/css/incident.module.css";
+import { useSelector, useDispatch } from "react-redux";
 
 const DamageScreen = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+  console.log(userInfo);
+  // return (
+  //   <div className="py-5">
+  //     <div className="searchbar">
+  //       <img src={searchIcon} className="search_icon" />
+  //     </div>
+
+  //     <div className={styles.dashboardBackground}>
+  //       <div className="dashboard">
+  //         <img src={dashboardBG} className="dashboardImage" />
+  //       </div>
+  //       <p className="dashTitle">Incident Management</p>
+
+  //       <br />
+  //       <br />
+  //       <Link to="/addincident">
+  //         <div className={styles.dashboardButtonContainer}>
+  //           <img src={profile} className={styles.buttonImage} />
+  //         </div>
+  //       </Link>
+  //       <Link to="/viewincident">
+  //         <div className={styles.dashboardButtonContainer}>
+  //           <img src={ownvehi} className={styles.buttonImage} />
+  //         </div>
+  //       </Link>
+
+  //       <p className={styles.dashobordButtonText}>Add new incident</p>
+  //       <p className="serv2">View Incident</p>
+  //     </div>
+  //     <SideNavigation />
+  //     <Footer />
+  //   </div>
+  // );
+
+  const renderContent = () => {
+    if (userInfo.role === "Customer") {
+      return (
+        <div className={styles.dashboardBackground}>
+          <div className="dashboard">
+            <img src={dashboardBG} className="dashboardImage" />
+          </div>
+          <p className="dashTitle">Incident Management</p>
+
+          <br />
+          <br />
+          <div>
+            <Link to="/addincident">
+              <div className={styles.dashboardButtonContainer}>
+                <img src={profile} className={styles.buttonImage} />
+              </div>
+            </Link>
+            <Link to="/viewincident">
+              <div className={styles.dashboardButtonContainer}>
+                <img src={ownvehi} className={styles.buttonImage} />
+              </div>
+            </Link>
+
+            <p className={styles.dashobordButtonText}>Add new incident</p>
+            <p className="serv2">View Incident</p>
+          </div>
+        </div>
+      );
+    } else if (userInfo.role === "Admin") {
+      return (
+        <div className={styles.dashboardBackground}>
+          <div className="dashboard">
+            <img src={dashboardBG} className="dashboardImage" />
+          </div>
+          <p className="dashTitle">Incident Management</p>
+
+          <br />
+          <br />
+          <div>
+            <Row>
+              <Col>
+                <Link to="/viewallincidentdata">
+                  <div className={styles.adminDashboardButtonContainer}>
+                    <img src={ownvehi} className={styles.adminButtonImage} />
+                  </div>
+                </Link>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p className={styles.adminDashobordButtonText}>
+                  View Incident data
+                </p>
+              </Col>
+            </Row>
+          </div>
+        </div>
+      );
+    } else {
+      return null; // For other user roles or no user
+    }
+  };
+
   return (
     <div className="py-5">
       <div className="searchbar">
         <img src={searchIcon} className="search_icon" />
       </div>
-
-      <div className="bacgroundImage">
-        <h1>Damage</h1>
-        <Link to="/addincident">
-          <Button>Add incident</Button>
-        </Link>
-        <Link to="/viewincident">
-          <Button>View incident</Button>
-        </Link>
-      </div>
-
+      {renderContent()}
       <SideNavigation />
       <Footer />
     </div>

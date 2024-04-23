@@ -41,8 +41,9 @@ const incidentSchema = new mongoose.Schema(
     witnessName: String,
     witnessContactNumber: String,
     userId: String,
+    incidentImages: [String],
   },
   { timestamps: true }
 );
 
-export default mongoose.model("IncidentSchema", incidentSchema);
+export default mongoose.model("IncidentDetails", incidentSchema);

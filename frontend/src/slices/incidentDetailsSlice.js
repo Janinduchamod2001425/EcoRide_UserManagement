@@ -5,27 +5,15 @@ const USERS_URL = "/api/incidentDetails";
 export const incidentApiSLice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     saveIncidentData: builder.mutation({
-      query: (data) => ({
-        url: `${USERS_URL}`,
-        method: "POST",
-        body: data,
-      }),
+      query: (data) => {
+        console.log("service", data);
+        return {
+          url: `${USERS_URL}`,
+          method: "POST",
+          body: data,
+        };
+      },
     }),
-
-    // register: builder.mutation({
-    //   query: (data) => ({
-    //     url: `${USERS_URL}`,
-    //     method: "POST",
-    //     body: data,
-    //   }),
-    // }),
-
-    // logout: builder.mutation({
-    //   query: () => ({
-    //     url: `${USERS_URL}/logout`,
-    //     method: "POST",
-    //   }),
-    // }),
 
     updateIncidentData: builder.mutation({
       query: (data) => {
@@ -46,7 +34,7 @@ export const incidentApiSLice = apiSlice.injectEndpoints({
 
     getAllIncidentData: builder.mutation({
       query: (id) => {
-        // console.log("Data to be sent:", id); // Log the data
+        console.log("Data:", id); // Log the data
         return {
           url: `${USERS_URL}/findbyuserid/${id}`,
           method: "GET",
@@ -60,6 +48,15 @@ export const incidentApiSLice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getAllIncidentDataAdmin: builder.mutation({
+      query: () => {
+        return {
+          url: `${USERS_URL}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
@@ -69,4 +66,5 @@ export const {
   useGetByIdMutation,
   useUpdateIncidentDataMutation,
   useDeleteIncidentReportMutation,
+  useGetAllIncidentDataAdminMutation,
 } = incidentApiSLice;
