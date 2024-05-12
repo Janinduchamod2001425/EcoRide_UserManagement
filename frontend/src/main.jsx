@@ -46,6 +46,7 @@ import CustomerPrivateRoute from "./components/CustomerPrivateRoute.jsx";
 import ViewAllIncidentData from "./screens/incidentManagement/admin/ViewAllIncidentData.jsx";
 import ViewIncidentAdmin from "./screens/incidentManagement/admin/ViewIncidentDataAdmin.jsx";
 import ViewIncidentDataAdmin from "./screens/incidentManagement/admin/ViewIncidentDataAdmin.jsx";
+import DamageCostView from "./screens/incidentManagement/user/DamageCostView.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -104,6 +105,10 @@ const router = createBrowserRouter(
         <Route
           path="/viewandeditincidentdata/:incidentReportId"
           element={<ViewAndEditIncidentData />}
+        />{" "}
+        <Route
+          path="/viewDamageCost/:incidentReportId"
+          element={<DamageCostView />}
         />{" "}
       </Route>
     </Route>

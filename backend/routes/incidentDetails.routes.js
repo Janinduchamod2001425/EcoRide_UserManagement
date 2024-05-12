@@ -8,6 +8,7 @@ import {
   findAllByUserId,
   update,
   deleteIncidentReport,
+  patchUpdate,
 } from "../controllers/incidentDetail.controller.js";
 
 // var router = require("express").Router();
@@ -29,6 +30,9 @@ router.put("/:id", update);
 
 // // Delete a incident details with id
 router.delete("/:id", deleteIncidentReport);
+
+//patch
+router.patch("/:id", patchUpdate);
 
 // // Delete all incident details
 // router.delete("/", incidentDetails.deleteAll);

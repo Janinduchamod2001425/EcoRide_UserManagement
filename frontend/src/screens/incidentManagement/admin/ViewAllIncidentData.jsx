@@ -13,6 +13,10 @@ import { toast } from "react-toastify";
 import MainHeader from "../components/MainHeader";
 import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../components/ConfirmationDialogBox";
+import { BsSearch } from "react-icons/bs";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { BsPencil, BsTrash, BsPencilSquare } from "react-icons/bs";
+import { HiDocumentDuplicate } from "react-icons/hi2";
 
 const ViewAllIncidentData = () => {
   const [getAllIncidentDataAdmin, { isLoading }] =
@@ -26,6 +30,9 @@ const ViewAllIncidentData = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   // State to store the ID of the item to delete
   const [itemToDelete, setItemToDelete] = useState(null);
+
+  //for searching
+  const [searchQuery, setSearchQuery] = useState("");
 
   const getAllIncidents = async () => {
     try {
@@ -71,11 +78,52 @@ const ViewAllIncidentData = () => {
     }
   };
 
+  //search
+  useEffect(() => {
+    filterIncidentsByRentalAgreement();
+  }, [searchQuery]);
+
+  const filterIncidentsByRentalAgreement = () => {
+    if (searchQuery === "") {
+      setIncidentData(null); // Restore original incident data
+      getAllIncidents();
+      return;
+    }
+    const filteredIncidents = incidentData.filter((incident) =>
+      incident.renterAgreementNumber.includes(searchQuery)
+    );
+    setIncidentData(filteredIncidents);
+  };
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <div className="py-5">
-      <div className="searchbar">
-        <img src={searchIcon} className="search_icon" />
+      <div className="">
+        {/* <img src={searchIcon} className="search_icon" /> */}
+
         <div className={styles.incidentViewContainer}>
+          <div className={styles.searchBar}>
+            <Row>
+              <Col>
+                <div className={styles.inputContainer}>
+                  <div className={styles.inputWithIcon}>
+                    <input
+                      type="text"
+                      placeholder="Search by Rental Agreement Number"
+                      value={searchQuery}
+                      onChange={handleSearch}
+                      className={styles.customInput}
+                    />
+                    <BsSearch className={styles.searchIcon} />
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </div>
+
           <Container className={styles.incidentView}>
             <MainHeader name="View Incident Data" />
             {isLoading ? (
@@ -98,27 +146,64 @@ const ViewAllIncidentData = () => {
                         <td>{incident.renterContactNumber}</td>
                         <td>{incident.renterAgreementNumber}</td>
                         <td>
-                          <div style={{ display: "flex", padding: 10 }}>
-                            <Button
-                              // className="editBTN"
+                          <div
+                            style={{
+                              display: "flex",
+                              padding: 10,
+                              justifyContent: "center",
+                            }}
+                          >
+                            {/* <Button
                               onClick={() =>
                                 handleViewMoreAndEditReport(incident._id)
                               }
                               variant="outline-secondary"
+                              style={{ margin: "0 2% 0 2%" }}
                             >
                               View more
-                              {/* <img src={edit} className="edt" /> */}
                             </Button>
                             <Button
-                              // className="delBTN"
                               onClick={() =>
                                 handleOpenConfirmation(incident._id)
                               }
                               variant="outline-danger"
                             >
                               Remove
-                              {/* <img src={deleteicon} className="edt" /> */}
-                            </Button>
+                            </Button> */}
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={
+                                <Tooltip id="view-edit-tooltip">
+                                  View & Edit
+                                </Tooltip>
+                              }
+                            >
+                              <Button
+                                variant="outline"
+                                style={{ margin: "0 2% 0 2%" }}
+                                onClick={() =>
+                                  handleViewMoreAndEditReport(incident._id)
+                                }
+                              >
+                                <BsPencilSquare />
+                              </Button>
+                            </OverlayTrigger>
+
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={
+                                <Tooltip id="remove-tooltip">Remove</Tooltip>
+                              }
+                            >
+                              <Button
+                                variant="outline"
+                                onClick={() =>
+                                  handleOpenConfirmation(incident._id)
+                                }
+                              >
+                                <BsTrash color="red" />
+                              </Button>
+                            </OverlayTrigger>
                           </div>
                         </td>
                       </tr>

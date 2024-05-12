@@ -55,6 +55,17 @@ export const incidentApiSLice = apiSlice.injectEndpoints({
         };
       },
     }),
+
+    saveDamageCost: builder.mutation({
+      query: (data) => {
+        console.log(data);
+        return {
+          url: `${USERS_URL}/${data.id}`,
+          method: "PATCH",
+          body: data.data,
+        };
+      },
+    }),
   }),
 });
 
@@ -65,4 +76,5 @@ export const {
   useUpdateIncidentDataMutation,
   useDeleteIncidentReportMutation,
   useGetAllIncidentDataAdminMutation,
+  useSaveDamageCostMutation,
 } = incidentApiSLice;

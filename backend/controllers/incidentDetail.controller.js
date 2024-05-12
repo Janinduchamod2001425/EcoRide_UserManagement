@@ -8,9 +8,38 @@ export const create = (req, res) => {
     return;
   }
 
-  const incidentDetails = new IncidentDetails(req.body);
+  // Set fields to null if not provided in the request body
+  const incidentData = {
+    renterName: req.body.renterName,
+    renterContactNumber: req.body.renterContactNumber || null,
+    renterAgreementNumber: req.body.renterAgreementNumber || null,
+    vehicleType: req.body.vehicleType || null,
+    vehicleLicensePlateNumber: req.body.vehicleLicensePlateNumber || null,
+    incidentDateTime: req.body.incidentDateTime || null,
+    incidentLocation: req.body.incidentLocation || null,
+    incidentDescription: req.body.incidentDescription || null,
+    witnessName: req.body.witnessName || null,
+    witnessContactNumber: req.body.witnessContactNumber || null,
+    userId: req.body.userId || null,
+    incidentImages: req.body.incidentImages || [],
+    damageType: null,
+    standardCost: null,
+    otherCostType1: null,
+    otherCostType2: null,
+    otherCostType3: null,
+    otherCostType4: null,
+    otherCostType5: null,
+    otherCost1: null,
+    otherCost2: null,
+    otherCost3: null,
+    otherCost4: null,
+    otherCost5: null,
+    totalCost: null,
+  };
 
-  //save in db
+  const incidentDetails = new IncidentDetails(incidentData);
+
+  // Save in db
   incidentDetails
     .save(incidentDetails)
     .then((data) => {
@@ -144,3 +173,34 @@ export const deleteIncidentReport = (req, res) => {
 // };
 
 // export default IncidentDetails;
+
+// Patch update for incidentDetails by the id in the request
+export const patchUpdate = (req, res) => {
+  const id = req.params.id;
+  const updateFields = req.body;
+
+  IncidentDetails.findById(id)
+    .then((incidentDetails) => {
+      if (!incidentDetails) {
+        return res.status(404).send({
+          message: `Incident with id=${id} not found.`,
+        });
+      }
+
+      // Update each field in the request body
+      Object.keys(updateFields).forEach((key) => {
+        incidentDetails[key] = updateFields[key];
+      });
+
+      // Save the updated incidentDetails
+      return incidentDetails.save();
+    })
+    .then((updatedIncidentDetails) => {
+      res.send(updatedIncidentDetails);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating Incident details with id=" + id,
+      });
+    });
+};
